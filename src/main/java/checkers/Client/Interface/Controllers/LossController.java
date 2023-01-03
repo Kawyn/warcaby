@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class LossController {
-    final SystemController systemController = new SystemController();
     private Parent root;
     private Stage stage;
     @FXML
@@ -34,7 +33,7 @@ public class LossController {
             stage.close();
             root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("/resources/System.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/resources/Search.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -48,19 +47,20 @@ public class LossController {
         });
 
         new_game.setOnAction(event -> {
-
-            int w = systemController.setWariant();
-            switch (w){
-                case 0: {
-                    break;
-                }
-                case 1: {
-                    break;
-                }
-                case 2: {
-                    break;
-                }
+            stage = (Stage) menu.getScene().getWindow();
+            stage.close();
+            root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/resources/Search.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Warcaby");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
         });
     }
 
