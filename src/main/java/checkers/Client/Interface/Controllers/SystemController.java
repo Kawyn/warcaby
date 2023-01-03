@@ -1,5 +1,7 @@
 package checkers.Client.Interface.Controllers;
 
+import checkers.Client.ClientData;
+import checkers.Universal.GameStates.GameStateFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,8 +40,11 @@ public class SystemController {
                         stage = (Stage) start.getScene().getWindow();
                         stage.close();
                         root = null;
+                        ClientData.currentGameState =GameStateFactory.createGameStateByType(GameStateFactory.GameStateType.ENGLISH);
+
                         try {
                             root = FXMLLoader.load(getClass().getResource("/resources/GameScene.fxml"));
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -61,7 +66,7 @@ public class SystemController {
             });
         }
 
-        public int setWariant(){
+        public int getWariant(){
             return lista.getSelectionModel().getSelectedIndex();
         }
 
