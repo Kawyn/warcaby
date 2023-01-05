@@ -17,7 +17,6 @@ public class ObservableValue<T> extends Observable {
     public void setValue(T value) {
         this.value = value;
         this.setChanged();
-        System.out.println(this.countObservers());
         this.notifyObservers();
     }
 }

@@ -1,0 +1,89 @@
+package checkers.Universal.GameLogics;
+
+import checkers.Universal.GameLogics.MoveGenerators.IMoveGenerator;
+import checkers.Universal.GameStates.GameState;
+import checkers.Universal.Pieces.Piece;
+import checkers.Universal.PlayerColor;
+import checkers.Universal.Structs.Move;
+import checkers.Universal.Structs.Vector2D;
+
+import java.util.ArrayList;
+
+public class GameLogic {
+
+    private IMoveGenerator queenMoveGenerator;
+    private IMoveGenerator pawnMoveGenerator;
+
+    public void setPawnMoveGenerator(IMoveGenerator pawnMoveGenerator) {
+        this.pawnMoveGenerator = pawnMoveGenerator;
+    }
+
+    public void setQueenMoveGenerator(IMoveGenerator queenMoveGenerator) {
+        this.queenMoveGenerator = queenMoveGenerator;
+    }
+
+    public ArrayList<Move> getPossibleMoves(GameState gameState, Piece piece) {
+
+        if (piece.getType().equals("QUEEN"))
+            return queenMoveGenerator.getPossibleMoves(gameState, piece);
+
+        if (piece.getType().equals("PAWN"))
+            return pawnMoveGenerator.getPossibleMoves(gameState, piece);
+
+        return null;
+    }
+
+    public void Move(GameState gameState, Move move) {
+
+        Piece piece = gameState.getPieceByVector2D(move.getStart());
+    piece.x = move.getDestination().x   ;
+    piece.y = move.getDestination().y;
+
+        gameState.getPieces().set(gameState.getIdxByVector(move.getStart()), null);
+        gameState.getPieces().set(gameState.getIdxByVector(move.getDestination()), piece);
+
+        if (move.getCapture() != null)
+            gameState.getPieces().set(gameState.getIdxByVector(new Vector2D(move.getCapture().x, move.getCapture().y)), null);
+
+        Promote(piece);
+    }
+
+    public  void Promote(Piece piece) {
+
+        if(piece.y == 0 && piece.color == PlayerColor.BLACK)
+            piece.setType("QUEEN");
+
+        if(piece.y == 7 && piece.color == PlayerColor.WHITE)
+            piece.setType("QUEEN");
+
+    }
+
+    public String getGameResult(GameState gameState) {
+
+        ArrayList<Piece> A = gameState.getPiecesByColor("000000");
+
+        int movesA = 0;
+
+        for (Piece a : A) {
+
+            if (getPossibleMoves(gameState, a).size() != 0)
+                movesA++;
+        }
+
+        ArrayList<Piece> B = gameState.getPiecesByColor("FFFFFF");
+
+        int movesB = 0;
+
+        for (Piece b: B) {
+
+            if (getPossibleMoves(gameState, b).size() != 0)
+                movesB++;
+        }
+
+        if(movesA == 0)
+            return "FFFFFF";
+        if(movesB == 0)
+            return "000000";
+        else return "NONE";
+    }
+}

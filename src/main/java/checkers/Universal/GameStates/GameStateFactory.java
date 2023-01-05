@@ -1,9 +1,10 @@
 package checkers.Universal.GameStates;
 
-import checkers.Client.Interface.Controllers.SystemController;
-import checkers.Universal.DefaultGameLogic;
-import checkers.Universal.Piece;
-import checkers.Universal.PieceFactory;
+import checkers.Universal.GameLogics.GameLogic;
+import checkers.Universal.GameLogics.GameLogicFactory;
+import checkers.Universal.Pieces.Piece;
+import checkers.Universal.Pieces.PieceFactory;
+import checkers.Universal.PlayerColor;
 import checkers.Utils.CheckersMath;
 
 public class GameStateFactory {
@@ -32,12 +33,12 @@ public class GameStateFactory {
                         int idx = CheckersMath.squarePositionToIdx(x, y);
                         if ((x + y) % 2 == 0) {
 
-                            Piece piece = PieceFactory.createPieceByType(PieceFactory.PieceType.ENG_PAWN);
+                            Piece piece = PieceFactory.createPieceByType("PAWN");
 
                             piece.setX(x);
                             piece.setY(y);
 
-                            piece.setColor("000000");
+                            piece.setColor(PlayerColor.WHITE);
 
                             gameState.getPieces().set(idx, piece);
                         }
@@ -49,19 +50,19 @@ public class GameStateFactory {
                         int idx = CheckersMath.squarePositionToIdx(x, y);
                         if ((x +y) % 2 == 0) {
 
-                            Piece piece = PieceFactory.createPieceByType(PieceFactory.PieceType.ENG_PAWN);
+                            Piece piece = PieceFactory.createPieceByType("PAWN");
 
                             piece.setX(x);
                             piece.setY(y);
 
-                            piece.setColor("FFFFFF");
+                            piece.setColor(PlayerColor.BLACK);
 
                             gameState.getPieces().set(idx, piece);
                         }
                     }
                 }
 
-                gameState.gameLogic = new DefaultGameLogic();
+                gameState.gameLogic = GameLogicFactory.createGameLogic("ENGLISH");
 
 
 

@@ -40,7 +40,7 @@ public class SystemController {
                         stage = (Stage) start.getScene().getWindow();
                         stage.close();
                         root = null;
-                        ClientData.currentGameState =GameStateFactory.createGameStateByType(GameStateFactory.GameStateType.ENGLISH);
+                        ClientData.getInstance().setGameState(GameStateFactory.createGameStateByType(GameStateFactory.GameStateType.ENGLISH));
 
                         try {
                             root = FXMLLoader.load(getClass().getResource("/resources/GameScene.fxml"));

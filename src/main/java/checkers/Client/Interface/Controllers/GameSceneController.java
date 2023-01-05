@@ -2,8 +2,8 @@ package checkers.Client.Interface.Controllers;
 
 import checkers.Client.ClientData;
 import checkers.Universal.GameStates.GameState;
-import checkers.Universal.Move;
-import checkers.Universal.Piece;
+import checkers.Universal.Structs.Move;
+import checkers.Universal.Pieces.Piece;
 import checkers.Utils.CheckersMath;
 import checkers.Utils.ObservableValue;
 import javafx.collections.FXCollections;
@@ -38,8 +38,9 @@ public class GameSceneController {
 
     public void initialize() {
 
-        gameState = ClientData.currentGameState;
-        gameState.getPieces().addListener((ListChangeListener<? super Piece>) event -> displayPieces());
+        gameState = ClientData.getInstance().getGameState();
+        gameState.getPieces().addListener((ListChangeListener<? super Piece>) event ->
+                displayPieces());
 
         selectedPiece.addObserver(new Observer() {
             @Override
@@ -47,8 +48,14 @@ public class GameSceneController {
 
                 possibleMoves.clear();
 
-                possibleMoves.setAll(gameState.gameLogic.GetPossibleMoves(selectedPiece.getValue()));
+                if(selectedPiece.getValue() == null) {
 
+                    displayPieces();
+                    return;
+
+                }
+                possibleMoves.setAll(gameState.gameLogic.getPossibleMoves(gameState, selectedPiece.getValue()));
+    System.out.println("PossibleMovesCount" + possibleMoves.size());
                 displayPieces();
             }
         });
@@ -106,7 +113,7 @@ public class GameSceneController {
             int i = CheckersMath.squarePositionToIdx(piece.x, piece.y);
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(10);
-            circle.setFill(Color.web(piece.getColor()));
+            circle.setFill(Color.web(piece.getColor().getColorAsHex()));
             circle.setOnMouseClicked(event ->
             {
                 selectedPiece.setValue(piece);
@@ -115,14 +122,16 @@ public class GameSceneController {
         }
 
         for (Move move : possibleMoves) {
-            System.out.println(move);
-            int i = CheckersMath.squarePositionToIdx(move.x, move.y);
+            System.out.println(move.toString());
+
+            int i = CheckersMath.squarePositionToIdx(move.getDestination().x, move.getDestination().y);
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(7);
             circle.setFill(Color.web("00ff00"));
             circle.setOnMouseClicked(event ->
             {
-                gameState.gameLogic.TryToMove(move);
+             gameState.gameLogic.Move(gameState, move);
+             selectedPiece.setValue(null);
             });
             stackPane.getChildren().add(1, circle);
 
