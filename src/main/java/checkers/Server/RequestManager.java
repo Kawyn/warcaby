@@ -7,6 +7,8 @@ public class RequestManager {
 
     private static final IRequestHandler[] requestHandlers = new IRequestHandler[]{
             new ExampleRequestHandler()
+            // MoveRequestHandler
+            // StartGameRequestHandler itp...
     };
 
     public static void processRequest(String request) {
