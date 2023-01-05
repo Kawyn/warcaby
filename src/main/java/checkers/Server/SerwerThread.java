@@ -4,8 +4,12 @@ import checkers.Client.MessageCommand;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class SerwerThread extends Thread{
+
+    private RequestManager requestManager = new RequestManager();
+
     private Socket socket;
     OutputStream output;
     PrintWriter out;
@@ -37,6 +41,10 @@ public class SerwerThread extends Thread{
 
     private void processCommand(String line) {
         this.out.println(line);
+
+        // Zrobiłbym coś w tym stylu, tylko jeszcze powinno być przekazwyane poza line jakieś ID klienta itp. (patrz komentarz w serwer)
+        RequestManager.processRequest(line);
+
         //sendToOther(MessageCommand...);
         System.out.println(line);
     }

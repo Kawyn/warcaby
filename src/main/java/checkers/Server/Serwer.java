@@ -15,6 +15,7 @@ public class Serwer extends Thread{
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("SERVER: Server is listening on port: " + port);
 
+            // A co jeżeli chcą zagrać w inne rodzaje szachów?
             while (threads.size()<2) {
                 Socket socket = serverSocket.accept();
                 System.out.println("SERVER: New client connected");
