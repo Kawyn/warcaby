@@ -9,15 +9,22 @@ public class GameLogicFactory {
 
         GameLogic gameLogic = new GameLogic();
 
-        if (type.equals("ENGLISH")) {
-
-            gameLogic.setPawnMoveGenerator(new PawnBasic());
-            gameLogic.setQueenMoveGenerator(new QueenBasic());
-        } else if (type.equals("RUSSIAN")) {
-
-            gameLogic.setPawnMoveGenerator(new PawnBasic());
-            gameLogic.setQueenMoveGenerator(new QueenBasic());
+        //TODO
+        switch (type) {
+            case "ENGLISH":
+                gameLogic.setPawnMoveGenerator(new PawnBasic());
+                gameLogic.setQueenMoveGenerator(new QueenBasic());
+                break;
+            case "RUSSIAN":
+                gameLogic.setPawnMoveGenerator(new PawnBasic());
+                gameLogic.setQueenMoveGenerator(new QueenBasic());
+                break;
+            case "TURKISH":
+                gameLogic.setPawnMoveGenerator(new PawnBasic());
+                gameLogic.setQueenMoveGenerator(new QueenBasic());
+                break;
         }
+
         return gameLogic;
     }
 }

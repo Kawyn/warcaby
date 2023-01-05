@@ -2,7 +2,7 @@ package checkers.Universal.Pieces;
 
 public class PieceFactory {
 
-    public static Piece createPieceByType(String type) {
+    public static Piece createPiece(String type) {
 
         Piece piece = new Piece();
 

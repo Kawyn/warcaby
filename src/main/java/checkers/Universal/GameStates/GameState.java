@@ -11,7 +11,11 @@ import java.util.ArrayList;
 
 public class GameState {
 
+    private final ObservableList<Piece> pieces = FXCollections.observableArrayList();
+    public GameLogic gameLogic;
     private PlayerColor playerColor;
+    private int width;
+    private int height;
 
     public PlayerColor getPlayerColor() {
         return playerColor;
@@ -20,11 +24,6 @@ public class GameState {
     public void setPlayerColor(PlayerColor playerColor) {
         this.playerColor = playerColor;
     }
-
-    private final ObservableList<Piece> pieces = FXCollections.observableArrayList();
-    public GameLogic gameLogic;
-    private int width;
-    private int height;
 
     public ObservableList<Piece> getPieces() {
         return pieces;
@@ -36,8 +35,7 @@ public class GameState {
 
         for (Piece piece : pieces) {
 
-            if (piece.getColor().equals(color))
-                result.add(piece);
+            if (piece.getColor().equals(color)) result.add(piece);
         }
 
         return result;
@@ -71,5 +69,11 @@ public class GameState {
         return pieces.get(v.y * 8 + v.x);
     }
 
-    public int getIdxByVector(Vector2D v) {return v.y * 8 + v.x; }
+    public int getIdxByVector(Vector2D v) {
+        return v.y * width + v.x;
+    }
+
+    public int getIdxByPosition(int x, int y) {
+        return y * width + x;
+    }
 }

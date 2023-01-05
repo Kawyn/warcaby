@@ -4,7 +4,6 @@ import checkers.Client.ClientData;
 import checkers.Universal.GameStates.GameState;
 import checkers.Universal.Structs.Move;
 import checkers.Universal.Pieces.Piece;
-import checkers.Utils.CheckersMath;
 import checkers.Utils.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -109,8 +108,7 @@ public class GameSceneController {
 
             if (piece == null)
                 continue;
-            ;
-            int i = CheckersMath.squarePositionToIdx(piece.x, piece.y);
+            int i = gameState.getIdxByPosition(piece.x, piece.y);
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(10);
             circle.setFill(Color.web(piece.getColor().getColorAsHex()));
@@ -124,7 +122,7 @@ public class GameSceneController {
         for (Move move : possibleMoves) {
             System.out.println(move.toString());
 
-            int i = CheckersMath.squarePositionToIdx(move.getDestination().x, move.getDestination().y);
+            int i = gameState.getIdxByPosition(move.getDestination().x, move.getDestination().y);
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(7);
             circle.setFill(Color.web("00ff00"));
