@@ -16,7 +16,7 @@ public class SerwerThread extends Thread{
     OutputStream output;
     PrintWriter out;
 
-    SerwerThread(Socket socket , int id){
+    SerwerThread(Socket socket , Integer id){
         this.socket = socket;
         this.client = new Client(id);
     }
