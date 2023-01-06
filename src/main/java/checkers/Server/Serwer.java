@@ -20,7 +20,7 @@ public class Serwer extends Thread{
                 Socket socket = serverSocket.accept();
                 System.out.println("SERVER: New client connected");
 
-                SerwerThread thread = new SerwerThread(socket);
+                SerwerThread thread = new SerwerThread(socket, Client.idCounter++);
                 thread.start();
                 threads.add(thread);
             }

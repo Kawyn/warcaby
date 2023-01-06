@@ -11,7 +11,7 @@ public class RequestManager {
             // StartGameRequestHandler itp...
     };
 
-    public static void processRequest(String request) {
+    public static void processRequest(String request, Integer id) {
 
         for (IRequestHandler handler : requestHandlers) {
 
