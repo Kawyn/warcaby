@@ -1,5 +1,5 @@
 package checkers.Universal;
 
 public interface IPlayerColor {
-    public String getColorAsHex();
+    public String toHex();
 }

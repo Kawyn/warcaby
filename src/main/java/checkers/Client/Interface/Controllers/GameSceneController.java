@@ -111,7 +111,7 @@ public class GameSceneController {
             int i = gameState.getIdxByPosition(piece.x, piece.y);
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(10);
-            circle.setFill(Color.web(piece.getColor().getColorAsHex()));
+            circle.setFill(Color.web(piece.getColor().toHex()));
             circle.setOnMouseClicked(event ->
             {
                 selectedPiece.setValue(piece);

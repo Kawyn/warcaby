@@ -3,13 +3,12 @@ package checkers.Universal;
 public enum PlayerColor implements IPlayerColor {
     WHITE {
         @Override
-        public String getColorAsHex() {
+        public String toHex() {
             return "FFFFFF";
         }
-    },
-    BLACK {
+    }, BLACK {
         @Override
-        public String getColorAsHex() {
+        public String toHex() {
             return "000000";
         }
     },
