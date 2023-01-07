@@ -20,7 +20,7 @@
       </Label>
       <Button fx:id="start" layoutX="105.0" layoutY="262.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="190.0" style="-fx-background-color: white; -fx-background-radius: 5000 5000 5000 5000;" text="Zacząć">
          <font>
-            <Font name="Bookman Old Style" size="36.0" />
+            <Font name="Bookman Old Style Bold" size="36.0" />
          </font>
       </Button>
    </children>

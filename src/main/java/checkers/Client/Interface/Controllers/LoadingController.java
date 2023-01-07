@@ -51,7 +51,7 @@ public class LoadingController {
             {
                 points = points + 0.1;
                 try {
-                    Thread.sleep(0);
+                    Thread.sleep(400);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
