@@ -1,5 +1,6 @@
 package checkers.Server;
 
+import checkers.Client.Interface.Controllers.SystemController;
 import checkers.Server.SerwerThread;
 
 import java.io.IOException;
@@ -8,8 +9,13 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Serwer extends Thread{
+    private SystemController systemController;
     static ArrayList<SerwerThread> threads = new ArrayList<>();
-    int port = 8080;
+    int port;
+
+    public Serwer(int port){
+        this.port = port;
+    }
 
     public void run(){
         try (ServerSocket serverSocket = new ServerSocket(port)) {
@@ -19,10 +25,13 @@ public class Serwer extends Thread{
             while (threads.size()<2) {
                 Socket socket = serverSocket.accept();
                 System.out.println("SERVER: New client connected");
-
+                if (!(Integer.parseInt(String.valueOf(socket.getInputStream())) ==systemController.getWariant())){
+                    serverSocket.close();
+                }
+                else {
                 SerwerThread thread = new SerwerThread(socket, ++Client.idCounter);
                 thread.start();
-                threads.add(thread);
+                threads.add(thread);}
             }
         }
         catch (IOException ex) {
