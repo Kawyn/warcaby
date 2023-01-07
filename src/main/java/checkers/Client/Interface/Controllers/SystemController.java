@@ -1,8 +1,4 @@
 package checkers.Client.Interface.Controllers;
-
-import checkers.Client.ClientData;
-import checkers.Universal.GameStates.GameStateFactory;
-import checkers.Universal.GameStates.GameType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,70 +32,20 @@ public class SystemController {
         }
         private void Choise(){
             start.setOnAction(event -> {
-                switch (lista.getSelectionModel().getSelectedItem()){
-                    case "Angielski":{
-                        stage = (Stage) start.getScene().getWindow();
-                        stage.close();
-                        root = null;
-                        ClientData.getInstance().setGameState(GameStateFactory.createGameState(GameType.ENGLISH));
-
-                        try {
-                            root = FXMLLoader.load(getClass().getResource("/resources/GameScene.fxml"));
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage = new Stage();
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setTitle("Warcaby");
-                        stage.setScene(new Scene(root));
-                        stage.setResizable(false);
-                        stage.show();
-                        break;
-                    }
-                    case "Rosyjski": {
-                        stage = (Stage) start.getScene().getWindow();
-                        stage.close();
-                        root = null;
-                        ClientData.getInstance().setGameState(GameStateFactory.createGameState(GameType.RUSSIAN));
-
-                        try {
-                            root = FXMLLoader.load(getClass().getResource("/resources/GameScene.fxml"));
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage = new Stage();
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setTitle("Warcaby");
-                        stage.setScene(new Scene(root));
-                        stage.setResizable(false);
-                        stage.show();
-                        break;
-
-                    }
-                    case "Turecki":{
-                        stage = (Stage) start.getScene().getWindow();
-                        stage.close();
-                        root = null;
-                        ClientData.getInstance().setGameState(GameStateFactory.createGameState(GameType.TURKISH));
-
-                        try {
-                            root = FXMLLoader.load(getClass().getResource("/resources/GameScene.fxml"));
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage = new Stage();
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setTitle("Warcaby");
-                        stage.setScene(new Scene(root));
-                        stage.setResizable(false);
-                        stage.show();
-                        break;
-
-                    }
+                stage = (Stage) start.getScene().getWindow();
+                stage.close();
+                root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/resources/Search.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Warcaby");
+                stage.setScene(new Scene(root));
+                stage.setResizable(false);
+                stage.show();
             });
         }
 
