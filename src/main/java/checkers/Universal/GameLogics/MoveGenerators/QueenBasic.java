@@ -38,9 +38,10 @@ public class QueenBasic implements IMoveGenerator {
 
                                 if (gameState.getPieceByVector2D(further) == null) {
                                     result.add(new Move(new Vector2D(piece.x, piece.y), further, destination));
-                                    break;
+
                                 }
                             }
+                            break;
                         }
                     }
                 }

@@ -39,6 +39,7 @@ public class QueenTurkish implements IMoveGenerator {
                                     break;
                                 }
                             }
+                            break;
                         }
                     }
                     if (gameState.isInBounds(destinationSide)) {
@@ -61,6 +62,7 @@ public class QueenTurkish implements IMoveGenerator {
                                     break;
                                 }
                             }
+                            break;
                         }
                     }
                 }
