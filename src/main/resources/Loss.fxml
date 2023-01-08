@@ -14,25 +14,20 @@
             <Image url="@image/2.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="result_lable" layoutX="93.0" layoutY="76.0" prefHeight="54.0" prefWidth="214.0" text="Przegrałeś!" textFill="WHITE" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="93.0" AnchorPane.rightAnchor="93.0" AnchorPane.topAnchor="76.0">
+      <Label fx:id="result_lable" layoutX="103.0" layoutY="188.0" prefHeight="54.0" prefWidth="214.0" text="Przegrałeś!" textFill="WHITE" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="103.0" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="188.0">
          <font>
             <Font name="Bookman Old Style Bold" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="counter" layoutX="153.0" layoutY="146.0" text="0 - 0" textFill="WHITE" AnchorPane.bottomAnchor="200.4" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="173.4" AnchorPane.topAnchor="146.0">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Button fx:id="new_game" layoutX="131.0" layoutY="234.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="118.0" style="-fx-background-radius: 5000 5000 5000 5000; -fx-background-color: white;" text="Nowa gra" AnchorPane.bottomAnchor="111.60000000000002" AnchorPane.leftAnchor="131.0" AnchorPane.rightAnchor="150.60000000000002" AnchorPane.topAnchor="234.0">
+      <Button fx:id="menu" layoutX="141.0" layoutY="266.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="118.0" style="-fx-background-color: white; -fx-background-radius: 5000 5000 5000 5000;" text="Menu" AnchorPane.bottomAnchor="79.60000000000002" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="140.60000000000002" AnchorPane.topAnchor="266.0">
          <font>
             <Font name="Bookman Old Style Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="menu" layoutX="131.0" layoutY="304.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="118.0" style="-fx-background-color: white; -fx-background-radius: 5000 5000 5000 5000;" text="Menu" AnchorPane.bottomAnchor="41.60000000000002" AnchorPane.leftAnchor="131.0" AnchorPane.rightAnchor="150.60000000000002" AnchorPane.topAnchor="304.0">
-         <font>
-            <Font name="Bookman Old Style Bold" size="18.0" />
-         </font>
-      </Button>
+      <ImageView fitHeight="130.0" fitWidth="141.0" layoutX="135.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/3.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

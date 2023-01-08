@@ -12,13 +12,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -26,12 +33,15 @@ import java.util.Observer;
 
 
 public class GameSceneController {
-
+    private Parent root;
+    private Stage stage;
     private final List<StackPane> squares = new ArrayList<>();
     private final ObservableList<Move> possibleMoves = FXCollections.observableArrayList();
     private final ObservableValue<Piece> selectedPiece = new ObservableValue<>(null);
     @FXML
     private FlowPane board;
+    @FXML
+    private Button result;
     private GameState gameState;
 
     public void initialize() {
@@ -54,10 +64,36 @@ public class GameSceneController {
             }
 
             if(request.startsWith("WON")) {
-
+                /*stage = (Stage) result.getScene().getWindow();
+                stage.close();
+                root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/resources/Victory.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Warcaby");
+                stage.setScene(new Scene(root));
+                stage.setResizable(false);
+                stage.show();*/
             }
             if(request.startsWith("LOST")) {
-
+               /* stage = (Stage) result.getScene().getWindow();
+                stage.close();
+                root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Warcaby");
+                stage.setScene(new Scene(root));
+                stage.setResizable(false);
+                stage.show();*/
             }
         }));
         selectedPiece.addObserver(new Observer() {

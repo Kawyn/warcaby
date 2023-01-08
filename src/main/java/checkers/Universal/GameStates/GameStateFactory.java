@@ -54,11 +54,17 @@ public class GameStateFactory {
                 }
             }
 
-            if (type == GameType.ENGLISH) gameState.gameLogic = GameLogicFactory.createGameLogic("ENGLISH");
+            if (type == GameType.ENGLISH) {
+                gameState.gameLogic = GameLogicFactory.createGameLogic("ENGLISH");
+                gameState.setWhoseTurn(PlayerColor.BLACK);
+            }
 
-            if (type == GameType.RUSSIAN) gameState.gameLogic = GameLogicFactory.createGameLogic("RUSSIAN");
+            if (type == GameType.RUSSIAN) {
+                gameState.gameLogic = GameLogicFactory.createGameLogic("RUSSIAN");
+                gameState.setWhoseTurn(PlayerColor.BLACK);
+            }
         } else if (type == GameType.TURKISH) {
-
+            gameState.setWhoseTurn(PlayerColor.WHITE);
             for (int x = 0; x < 8; x++) {
                 for (int y = 1; y < 3; y++) {
 
