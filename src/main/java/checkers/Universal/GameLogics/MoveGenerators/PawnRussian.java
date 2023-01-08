@@ -8,7 +8,7 @@ import checkers.Universal.Structs.Vector2D;
 
 import java.util.ArrayList;
 
-public class PawnBasic implements IMoveGenerator {
+public class PawnRussian implements IMoveGenerator {
 
     @Override
     public ArrayList<Move> getPossibleMoves(GameState gameState, Piece piece) {
@@ -18,10 +18,10 @@ public class PawnBasic implements IMoveGenerator {
         int inverse = piece.getColor() == PlayerColor.BLACK ? -1 : 1;
 
         for (int xModifier = -1; xModifier <= 1; xModifier += 2) {
-
+            for (int yModifier = -1; yModifier <= 1; yModifier += 2) {
             int i = 1;
 
-            Vector2D destination = new Vector2D(piece.x + i * xModifier, piece.y + i * inverse);
+            Vector2D destination = new Vector2D(piece.x + i * xModifier, piece.y + i * yModifier);
 
             if (gameState.isInBounds(destination)) {
 
@@ -32,7 +32,7 @@ public class PawnBasic implements IMoveGenerator {
                 } else {
 
                     if (!target.getColor().equals(piece.getColor())) {
-                        Vector2D further = new Vector2D(piece.x + (i + 1) * xModifier, piece.y + (i + 1) * inverse);
+                        Vector2D further = new Vector2D(piece.x + (i + 1) * xModifier, piece.y + (i + 1) * yModifier);
 
                         if (gameState.isInBounds(further)) {
 
@@ -42,6 +42,7 @@ public class PawnBasic implements IMoveGenerator {
                         }
                     }
                 }
+            }
             }
         }
 

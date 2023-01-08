@@ -7,7 +7,7 @@ import checkers.Universal.Structs.Vector2D;
 
 import java.util.ArrayList;
 
-public class QueenBasic implements IMoveGenerator {
+public class QueenRussian implements IMoveGenerator {
 
     @Override
     public ArrayList<Move> getPossibleMoves(GameState gameState, Piece piece) {
