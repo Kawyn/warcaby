@@ -50,7 +50,7 @@ public class SystemController {
                 public void update(Observable o, Object arg) {
 
                     if (!ClientData.getInstance().getLastRequest().getValue().startsWith("START_GAME"))
-                        return;;
+                        return;
                     if(ClientData.getInstance().getGameState() != null)
                         return;
 
@@ -78,25 +78,7 @@ public class SystemController {
                     });
                 }
             });
-
             Client.request("JOIN_QUEUE_" + GameType.values()[getWariant()]);
-/*
-      stage = (Stage) start.getScene().getWindow();
-                stage.close();
-
-    root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("/resources/Search.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Warcaby");
-                stage.setScene(new Scene(root));
-                stage.setResizable(false);
-                stage.show();
-  */
         });
     }
 

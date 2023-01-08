@@ -25,7 +25,7 @@ public class GameStateFactory {
 
                     int idx = gameState.getIdxByPosition(x, y);
 
-                    if ((x + y) % 2 == 0) {
+                    if ((x + y) % 2 != 0) {
                         Piece piece = PieceFactory.createPiece("PAWN");
 
                         piece.setX(x);
@@ -41,7 +41,7 @@ public class GameStateFactory {
 
                     int idx = gameState.getIdxByPosition(x, y);
 
-                    if ((x + y) % 2 == 0) {
+                    if ((x + y) % 2 != 0) {
                         Piece piece = PieceFactory.createPiece("PAWN");
 
                         piece.setX(x);

@@ -81,7 +81,7 @@ public class GameSceneController {
 
                 Rectangle pane = new Rectangle(size, size);
 
-                Color color = (x + y) % 2 == 1 ? Color.web("eeeed2") : Color.web("769656");
+                Color color = (x + y) % 2 == 1 ? Color.web("769656") : Color.web("eeeed2");
                 pane.setFill(color);
 
                 StackPane square = new StackPane(pane);
@@ -117,9 +117,9 @@ public class GameSceneController {
             if (piece == null) continue;
             int i = gameState.getIdxByPosition(piece.x, piece.y);
             StackPane stackPane = squares.get(i);
-            Circle circle = new Circle(10);
+            Circle circle = new Circle(13);
             circle.setFill(Color.web(piece.getColor().toHex()));
-
+            circle.setStroke(Color.web("000000"));
             if(piece.getColor() == ClientData.getInstance().getGameState().getPlayerColor())
             circle.setOnMouseClicked(event -> {
                 selectedPiece.setValue(piece);

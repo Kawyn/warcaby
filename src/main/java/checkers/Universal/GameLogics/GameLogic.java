@@ -9,6 +9,7 @@ import checkers.Universal.PlayerColor;
 import checkers.Universal.Structs.Move;
 import checkers.Universal.Structs.Vector2D;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class GameLogic {
