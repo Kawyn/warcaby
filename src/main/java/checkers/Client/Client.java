@@ -36,7 +36,7 @@ public class Client implements Runnable {
             try {
                 line = in.readLine();
                 System.out.println(line);
-                ClientData.getInstance().getLastRequest().setValue(line);
+                Data.getInstance().getLastRequest().setValue(line);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

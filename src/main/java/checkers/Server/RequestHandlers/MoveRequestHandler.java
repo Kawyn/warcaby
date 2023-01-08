@@ -3,6 +3,7 @@ package checkers.Server.RequestHandlers;
 import checkers.Server.Client;
 import checkers.Server.Data;
 import checkers.Server.Game;
+import checkers.Universal.GameLogics.GameResult;
 import checkers.Universal.Structs.Move;
 import checkers.Universal.Structs.Vector2D;
 
@@ -22,6 +23,7 @@ public class MoveRequestHandler implements IRequestHandler {
         Game game = Data.getInstance().getGameByPlayer(client);
 
         if (game == null) return;
+        if (client != game.getPlayers()[game.getGameState().getWhoseTurn().ordinal()]) return;
 
         String[] args = request.split("_");
 
@@ -32,10 +34,20 @@ public class MoveRequestHandler implements IRequestHandler {
 
         Move move = new Move(start, destination, capture);
 
-        if (game.getGameState().gameLogic.isMoveLegal(move)) {
+        if (game.getGameState().gameLogic.isMoveLegal(game.getGameState(), move)) {
 
             game.getGameState().gameLogic.move(game.getGameState(), move);
             game.broadcast(request);
+
+            GameResult gameResult = game.getGameState().gameLogic.getGameResult(game.getGameState());
+
+            if (gameResult == GameResult.WHITE_WON) {
+                game.playercast(0, "WON");
+                game.playercast(1, "LOST");
+            } else if (gameResult == GameResult.BLACK_WON) {
+                game.playercast(0, "LOST");
+                game.playercast(1, "WON");
+            }
         }
     }
 }

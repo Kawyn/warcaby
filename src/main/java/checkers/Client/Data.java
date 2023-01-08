@@ -1,9 +1,20 @@
 package checkers.Client;
 
 import checkers.Universal.GameStates.GameState;
+import checkers.Universal.PlayerColor;
 import checkers.Utils.ObservableValue;
 
-public class ClientData {
+public class Data {
+
+    private PlayerColor currentColor;
+
+    public PlayerColor getCurrentColor() {
+        return currentColor;
+    }
+
+    public void setCurrentColor(PlayerColor currentColor) {
+        this.currentColor = currentColor;
+    }
 
     private final ObservableValue<String> getLastRequest = new ObservableValue<>("");
 
@@ -11,10 +22,10 @@ public class ClientData {
         return getLastRequest;
     }
 
-    private static final ClientData instance = new ClientData();
+    private static final Data instance = new Data();
     private GameState gameState;
 
-    public static ClientData getInstance() {
+    public static Data getInstance() {
         return instance;
     }
 

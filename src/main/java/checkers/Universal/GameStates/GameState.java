@@ -3,6 +3,7 @@ package checkers.Universal.GameStates;
 import checkers.Universal.GameLogics.GameLogic;
 import checkers.Universal.Pieces.Piece;
 import checkers.Universal.PlayerColor;
+import checkers.Universal.Structs.Move;
 import checkers.Universal.Structs.Vector2D;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,28 +14,32 @@ public class GameState {
 
     private final ObservableList<Piece> pieces = FXCollections.observableArrayList();
     public GameLogic gameLogic;
-    private PlayerColor playerColor;
+    private PlayerColor whoseTurn = PlayerColor.WHITE;
     private int width;
     private int height;
 
-    public PlayerColor getPlayerColor() {
-        return playerColor;
+    public Move previousMove;
+
+    public PlayerColor getWhoseTurn() {
+        return whoseTurn;
     }
 
-    public void setPlayerColor(PlayerColor playerColor) {
-        this.playerColor = playerColor;
+    public void setWhoseTurn(PlayerColor whoseTurn) {
+        this.whoseTurn = whoseTurn;
     }
 
     public ObservableList<Piece> getPieces() {
         return pieces;
     }
 
-    public ArrayList<Piece> getPiecesByColor(String color) {
+    public ArrayList<Piece> getPiecesByColor(PlayerColor color) {
 
         ArrayList<Piece> result = new ArrayList<>();
 
         for (Piece piece : pieces) {
 
+            if(piece == null)
+                continue;
             if (piece.getColor().equals(color)) result.add(piece);
         }
 

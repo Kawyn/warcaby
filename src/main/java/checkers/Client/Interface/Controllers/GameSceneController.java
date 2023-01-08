@@ -1,7 +1,7 @@
 package checkers.Client.Interface.Controllers;
 
 import checkers.Client.Client;
-import checkers.Client.ClientData;
+import checkers.Client.Data;
 import checkers.Universal.GameStates.GameState;
 import checkers.Universal.Pieces.Piece;
 import checkers.Universal.Structs.Move;
@@ -36,21 +36,29 @@ public class GameSceneController {
 
     public void initialize() {
 
-        gameState = ClientData.getInstance().getGameState();
+        gameState = Data.getInstance().getGameState();
         gameState.getPieces().addListener((ListChangeListener<? super Piece>) event -> Platform.runLater(this::displayPieces));
 
-        ClientData.getInstance().getLastRequest().addObserver(((o, arg) -> {
-            System.out.println("???");
-            String request = ClientData.getInstance().getLastRequest().getValue();
+        Data.getInstance().getLastRequest().addObserver(((o, arg) -> {
+            String request = Data.getInstance().getLastRequest().getValue();
 
-            String[] args = request.split("_");
+            if(request.startsWith("MOVE")) {
+                String[] args = request.split("_");
 
-            Vector2D start = new Vector2D(args[1], args[2]);
-            Vector2D destination = new Vector2D(args[3], args[4]);
+                Vector2D start = new Vector2D(args[1], args[2]);
+                Vector2D destination = new Vector2D(args[3], args[4]);
 
-            Vector2D capture = new Vector2D(args[5], args[6]);
+                Vector2D capture = new Vector2D(args[5], args[6]);
 
-            gameState.gameLogic.move(gameState, new Move(start, destination, capture));
+                gameState.gameLogic.move(gameState, new Move(start, destination, capture));
+            }
+
+            if(request.startsWith("WON")) {
+
+            }
+            if(request.startsWith("LOST")) {
+
+            }
         }));
         selectedPiece.addObserver(new Observer() {
             @Override
@@ -120,7 +128,7 @@ public class GameSceneController {
             Circle circle = new Circle(13);
             circle.setFill(Color.web(piece.getColor().toHex()));
             circle.setStroke(Color.web("000000"));
-            if(piece.getColor() == ClientData.getInstance().getGameState().getPlayerColor())
+            if(piece.getColor() == Data.getInstance().getCurrentColor())
             circle.setOnMouseClicked(event -> {
                 selectedPiece.setValue(piece);
             });

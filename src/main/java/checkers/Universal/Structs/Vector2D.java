@@ -15,10 +15,8 @@ public class Vector2D {
         this.y = Integer.parseInt(y);
     }
 
-    public Vector2D add(Vector2D v) {
-        this.x += v.x;
-        this.y += v.y;
-
-        return this;
+    @Override
+    public String toString() {
+        return x + "_" + y;
     }
 }

@@ -27,14 +27,18 @@ public class Game {
     public void broadcast(String message) {
 
         for (Client player : players)
+            if(player.getOut() != null)
             player.getOut().println(message);
     }
 
     public void playercast(int idx, String message) {
+        if(players[idx].getOut() != null)
         players[idx].getOut().println(message);
     }
 
     public void playercast(Client client, String message) {
+        if(client.getOut() != null)
+
         client.getOut().println(message);
     }
 

@@ -14,10 +14,9 @@ import java.util.ArrayList;
 
 public class GameLogic {
 
+    private final IMovesController moveController = new MoveControllerBasic();
     private IMoveGenerator queenMoveGenerator;
     private IMoveGenerator pawnMoveGenerator;
-
-    private final IMovesController moveController = new MoveControllerBasic();
 
     public void setPawnMoveGenerator(IMoveGenerator pawnMoveGenerator) {
         this.pawnMoveGenerator = pawnMoveGenerator;
@@ -27,17 +26,48 @@ public class GameLogic {
         this.queenMoveGenerator = queenMoveGenerator;
     }
 
-    public boolean isMoveLegal(Move move) {
-        return moveController.isMoveLegal(move);
+    public boolean isMoveLegal(GameState gameState, Move move) {
+        return moveController.isMoveLegal(gameState, move);
+    }
+
+    public ArrayList<Move> removeIllegalMoves(GameState gameState, ArrayList<Move> moves) {
+
+        ArrayList<Move> result = new ArrayList<>();
+
+        for (Move move : moves)
+            if (isMoveLegal(gameState, move)) result.add(move);
+
+        return result;
     }
 
     public ArrayList<Move> getPossibleMoves(GameState gameState, Piece piece) {
 
-        if (piece.getType().equals("QUEEN")) return queenMoveGenerator.getPossibleMoves(gameState, piece);
+        ArrayList<Move> result;
 
-        if (piece.getType().equals("PAWN")) return pawnMoveGenerator.getPossibleMoves(gameState, piece);
+        result = getPossibleCaptures(gameState, piece);
+        if (result.size() == 0) result = getPossibleMovesInternal(gameState, piece);
 
-        return null;
+        return removeIllegalMoves(gameState, result);
+    }
+
+    private ArrayList<Move> getPossibleMovesInternal(GameState gameState, Piece piece) {
+
+        if (piece.getType().equals("QUEEN"))
+            return queenMoveGenerator.getPossibleMoves(gameState, piece);
+        if (piece.getType().equals("PAWN"))
+            return pawnMoveGenerator.getPossibleMoves(gameState, piece);
+
+        return new ArrayList<>();
+    }
+
+    public ArrayList<Move> getPossibleCaptures(GameState gameState, Piece piece) {
+
+        ArrayList<Move> result = new ArrayList<>();
+
+        for (Move move : getPossibleMovesInternal(gameState, piece)) {
+            if (gameState.isInBounds(move.getCapture())) result.add(move);
+        }
+        return removeIllegalMoves(gameState, result);
     }
 
     public void move(GameState gameState, Move move) {
@@ -49,10 +79,28 @@ public class GameLogic {
         gameState.getPieces().set(gameState.getIdxByVector(move.getStart()), null);
         gameState.getPieces().set(gameState.getIdxByVector(move.getDestination()), piece);
 
-        if (gameState.isInBounds(move.getCapture()))
+        if (gameState.isInBounds(move.getCapture())) {
             gameState.getPieces().set(gameState.getIdxByVector(new Vector2D(move.getCapture().x, move.getCapture().y)), null);
 
-        promote(piece);
+
+            gameState.previousMove = move;
+
+            ArrayList<Move> moves = getPossibleCaptures(gameState, piece);
+            System.out.println(moves.size());
+            if (moves.size() == 0) {
+
+                gameState.previousMove = null;
+                gameState.setWhoseTurn(PlayerColor.values()[Math.abs(gameState.getWhoseTurn().ordinal() - 1)]);
+
+                System.out.println("ee" + gameState.getWhoseTurn());
+                promote(piece);
+            }
+        }
+        else {
+            gameState.previousMove = null;
+            gameState.setWhoseTurn(PlayerColor.values()[Math.abs(gameState.getWhoseTurn().ordinal() - 1)]);
+        System.out.println(gameState.getWhoseTurn());
+        }
     }
 
     public void promote(Piece piece) {
@@ -64,14 +112,14 @@ public class GameLogic {
 
     public GameResult getGameResult(GameState gameState) {
 
-        ArrayList<Piece> A = gameState.getPiecesByColor("000000");
+        ArrayList<Piece> A = gameState.getPiecesByColor(PlayerColor.BLACK);
 
         int movesA = 0;
 
         for (Piece a : A)
             if (getPossibleMoves(gameState, a).size() != 0) movesA++;
 
-        ArrayList<Piece> B = gameState.getPiecesByColor("FFFFFF");
+        ArrayList<Piece> B = gameState.getPiecesByColor(PlayerColor.WHITE);
 
         int movesB = 0;
 

@@ -10,6 +10,12 @@ import java.util.ArrayList;
 
 public class PawnBasic implements IMoveGenerator {
 
+    /**
+     *
+     * @param gameState
+     * @param piece
+     * @return
+     */
     @Override
     public ArrayList<Move> getPossibleMoves(GameState gameState, Piece piece) {
 

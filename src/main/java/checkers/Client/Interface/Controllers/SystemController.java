@@ -1,7 +1,7 @@
 package checkers.Client.Interface.Controllers;
 
 import checkers.Client.Client;
-import checkers.Client.ClientData;
+import checkers.Client.Data;
 import checkers.Universal.GameStates.GameStateFactory;
 import checkers.Universal.GameStates.GameType;
 import checkers.Universal.PlayerColor;
@@ -45,19 +45,19 @@ public class SystemController {
     private void Choise() {
         start.setOnAction(event -> {
 
-            ClientData.getInstance().getLastRequest().addObserver(new Observer() {
+            Data.getInstance().getLastRequest().addObserver(new Observer() {
                 @Override
                 public void update(Observable o, Object arg) {
 
-                    if (!ClientData.getInstance().getLastRequest().getValue().startsWith("START_GAME"))
+                    if (!Data.getInstance().getLastRequest().getValue().startsWith("START_GAME"))
                         return;
-                    if(ClientData.getInstance().getGameState() != null)
+                    if(Data.getInstance().getGameState() != null)
                         return;
 
-                    String[] args = ClientData.getInstance().getLastRequest().getValue().split("_");
+                    String[] args = Data.getInstance().getLastRequest().getValue().split("_");
 
-                    ClientData.getInstance().setGameState(GameStateFactory.createGameState(GameType.values()[getWariant()]));
-                    ClientData.getInstance().getGameState().setPlayerColor(PlayerColor.valueOf(args[2]));
+                    Data.getInstance().setGameState(GameStateFactory.createGameState(GameType.values()[getWariant()]));
+                    Data.getInstance().setCurrentColor(PlayerColor.valueOf(args[2]));
                     Platform.runLater(() -> {
                         stage = (Stage) start.getScene().getWindow();
                         stage.close();
