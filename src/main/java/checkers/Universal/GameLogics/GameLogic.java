@@ -9,7 +9,6 @@ import checkers.Universal.PlayerColor;
 import checkers.Universal.Structs.Move;
 import checkers.Universal.Structs.Vector2D;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class GameLogic {
@@ -52,10 +51,8 @@ public class GameLogic {
 
     private ArrayList<Move> getPossibleMovesInternal(GameState gameState, Piece piece) {
 
-        if (piece.getType().equals("QUEEN"))
-            return queenMoveGenerator.getPossibleMoves(gameState, piece);
-        if (piece.getType().equals("PAWN"))
-            return pawnMoveGenerator.getPossibleMoves(gameState, piece);
+        if (piece.getType().equals("QUEEN")) return queenMoveGenerator.getPossibleMoves(gameState, piece);
+        if (piece.getType().equals("PAWN")) return pawnMoveGenerator.getPossibleMoves(gameState, piece);
 
         return new ArrayList<>();
     }
@@ -95,11 +92,10 @@ public class GameLogic {
                 System.out.println("ee" + gameState.getWhoseTurn());
                 promote(piece);
             }
-        }
-        else {
+        } else {
             gameState.previousMove = null;
             gameState.setWhoseTurn(PlayerColor.values()[Math.abs(gameState.getWhoseTurn().ordinal() - 1)]);
-        System.out.println(gameState.getWhoseTurn());
+            System.out.println(gameState.getWhoseTurn());
         }
     }
 
@@ -114,6 +110,8 @@ public class GameLogic {
 
         ArrayList<Piece> A = gameState.getPiecesByColor(PlayerColor.BLACK);
 
+        if (A.size() == 0) return GameResult.WHITE_WON;
+
         int movesA = 0;
 
         for (Piece a : A)
@@ -121,14 +119,16 @@ public class GameLogic {
 
         ArrayList<Piece> B = gameState.getPiecesByColor(PlayerColor.WHITE);
 
+        if (B.size() == 0) return GameResult.BLACK_WON;
+
         int movesB = 0;
 
         for (Piece b : B)
             if (getPossibleMoves(gameState, b).size() != 0) movesB++;
 
-        if (movesA == 0) return GameResult.WHITE_WON;
-        if (movesB == 0) return GameResult.BLACK_WON;
+        if (gameState.getWhoseTurn() == PlayerColor.BLACK) if (movesA == 0) return GameResult.WHITE_WON;
+        if (gameState.getWhoseTurn() == PlayerColor.WHITE) if (movesB == 0) return GameResult.BLACK_WON;
 
-        else return GameResult.IN_PROGRESS;
+        return GameResult.IN_PROGRESS;
     }
 }

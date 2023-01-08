@@ -33,11 +33,11 @@ import java.util.Observer;
 
 
 public class GameSceneController {
-    private Parent root;
-    private Stage stage;
     private final List<StackPane> squares = new ArrayList<>();
     private final ObservableList<Move> possibleMoves = FXCollections.observableArrayList();
     private final ObservableValue<Piece> selectedPiece = new ObservableValue<>(null);
+    private Parent root;
+    private Stage stage;
     @FXML
     private FlowPane board;
     @FXML
@@ -49,53 +49,69 @@ public class GameSceneController {
         gameState = Data.getInstance().getGameState();
         gameState.getPieces().addListener((ListChangeListener<? super Piece>) event -> Platform.runLater(this::displayPieces));
 
-        Data.getInstance().getLastRequest().addObserver(((o, arg) -> {
-            String request = Data.getInstance().getLastRequest().getValue();
+        Data.getInstance().getLastRequest().addObserver(new Observer() {
+            @Override
+            public void update(Observable o, Object arg) {
 
-            if(request.startsWith("MOVE")) {
-                String[] args = request.split("_");
 
-                Vector2D start = new Vector2D(args[1], args[2]);
-                Vector2D destination = new Vector2D(args[3], args[4]);
+                String request = Data.getInstance().getLastRequest().getValue();
+                System.out.println(request);
+                if (request.startsWith("MOVE")) {
+                    String[] args = request.split("_");
 
-                Vector2D capture = new Vector2D(args[5], args[6]);
+                    Vector2D start = new Vector2D(args[1], args[2]);
+                    Vector2D destination = new Vector2D(args[3], args[4]);
 
-                gameState.gameLogic.move(gameState, new Move(start, destination, capture));
-            }
+                    Vector2D capture = new Vector2D(args[5], args[6]);
 
-            if(request.startsWith("WON")) {
-                /*stage = (Stage) result.getScene().getWindow();
-                stage.close();
-                root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("/resources/Victory.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    gameState.gameLogic.move(gameState, new Move(start, destination, capture));
                 }
-                stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Warcaby");
-                stage.setScene(new Scene(root));
-                stage.setResizable(false);
-                stage.show();*/
-            }
-            if(request.startsWith("LOST")) {
-               /* stage = (Stage) result.getScene().getWindow();
-                stage.close();
-                root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                if (request.startsWith("WON")) {
+
+                    Data.getInstance().getLastRequest().deleteObserver(this);
+                    Platform.runLater(() -> {
+                        stage = (Stage) result.getScene().getWindow();
+                        stage.close();
+                        root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/resources/Victory.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Warcaby");
+                        stage.setScene(new Scene(root));
+                        stage.setResizable(false);
+                        stage.show();
+
+                    });
                 }
-                stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Warcaby");
-                stage.setScene(new Scene(root));
-                stage.setResizable(false);
-                stage.show();*/
+                if (request.startsWith("LOST")) {
+                    Data.getInstance().getLastRequest().deleteObserver(this);
+                    Platform.runLater(() -> {
+                        stage = (Stage) result.getScene().getWindow();
+                        stage.close();
+                        root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Warcaby");
+                        stage.setScene(new Scene(root));
+                        stage.setResizable(false);
+                        stage.show();
+
+
+                    });
+                }
             }
-        }));
+        });
+
         selectedPiece.addObserver(new Observer() {
             @Override
             public void update(Observable o, Object arg) {
@@ -164,8 +180,7 @@ public class GameSceneController {
             Circle circle = new Circle(13);
             circle.setFill(Color.web(piece.getColor().toHex()));
             circle.setStroke(Color.web("000000"));
-            if(piece.getColor() == Data.getInstance().getCurrentColor())
-            circle.setOnMouseClicked(event -> {
+            if (piece.getColor() == Data.getInstance().getCurrentColor()) circle.setOnMouseClicked(event -> {
                 selectedPiece.setValue(piece);
             });
             stackPane.getChildren().add(1, circle);
