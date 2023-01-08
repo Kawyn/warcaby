@@ -1,5 +1,7 @@
 package checkers.Universal.GameLogics;
 
+import checkers.Universal.GameLogics.MoveControllers.IMovesController;
+import checkers.Universal.GameLogics.MoveControllers.MoveControllerBasic;
 import checkers.Universal.GameLogics.MoveGenerators.IMoveGenerator;
 import checkers.Universal.GameStates.GameState;
 import checkers.Universal.Pieces.Piece;
@@ -14,12 +16,18 @@ public class GameLogic {
     private IMoveGenerator queenMoveGenerator;
     private IMoveGenerator pawnMoveGenerator;
 
+    private final IMovesController moveController = new MoveControllerBasic();
+
     public void setPawnMoveGenerator(IMoveGenerator pawnMoveGenerator) {
         this.pawnMoveGenerator = pawnMoveGenerator;
     }
 
     public void setQueenMoveGenerator(IMoveGenerator queenMoveGenerator) {
         this.queenMoveGenerator = queenMoveGenerator;
+    }
+
+    public boolean isMoveLegal(Move move) {
+        return moveController.isMoveLegal(move);
     }
 
     public ArrayList<Move> getPossibleMoves(GameState gameState, Piece piece) {
@@ -31,7 +39,7 @@ public class GameLogic {
         return null;
     }
 
-    public void Move(GameState gameState, Move move) {
+    public void move(GameState gameState, Move move) {
 
         Piece piece = gameState.getPieceByVector2D(move.getStart());
         piece.x = move.getDestination().x;
@@ -40,13 +48,13 @@ public class GameLogic {
         gameState.getPieces().set(gameState.getIdxByVector(move.getStart()), null);
         gameState.getPieces().set(gameState.getIdxByVector(move.getDestination()), piece);
 
-        if (move.getCapture() != null)
+        if (gameState.isInBounds(move.getCapture()))
             gameState.getPieces().set(gameState.getIdxByVector(new Vector2D(move.getCapture().x, move.getCapture().y)), null);
 
-        Promote(piece);
+        promote(piece);
     }
 
-    public void Promote(Piece piece) {
+    public void promote(Piece piece) {
 
         if (piece.y == 0 && piece.color == PlayerColor.BLACK) piece.setType("QUEEN");
 

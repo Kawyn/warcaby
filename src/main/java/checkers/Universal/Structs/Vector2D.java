@@ -10,6 +10,11 @@ public class Vector2D {
         this.y = y;
     }
 
+    public Vector2D(String x, String y) {
+        this.x = Integer.parseInt(x);
+        this.y = Integer.parseInt(y);
+    }
+
     public Vector2D add(Vector2D v) {
         this.x += v.x;
         this.y += v.y;

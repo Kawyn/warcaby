@@ -1,10 +1,13 @@
 package checkers.Client.Interface.Controllers;
 
+import checkers.Client.Client;
 import checkers.Client.ClientData;
 import checkers.Universal.GameStates.GameState;
-import checkers.Universal.Structs.Move;
 import checkers.Universal.Pieces.Piece;
+import checkers.Universal.Structs.Move;
+import checkers.Universal.Structs.Vector2D;
 import checkers.Utils.ObservableValue;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -24,38 +27,45 @@ import java.util.Observer;
 
 public class GameSceneController {
 
+    private final List<StackPane> squares = new ArrayList<>();
+    private final ObservableList<Move> possibleMoves = FXCollections.observableArrayList();
+    private final ObservableValue<Piece> selectedPiece = new ObservableValue<>(null);
     @FXML
     private FlowPane board;
-
-    private final List<StackPane> squares = new ArrayList<>();
-
-    private ObservableValue<Piece> selectedPiece = new ObservableValue<>(null);
-
-    private final ObservableList<Move> possibleMoves = FXCollections.observableArrayList();
-
     private GameState gameState;
 
     public void initialize() {
 
         gameState = ClientData.getInstance().getGameState();
-        gameState.getPieces().addListener((ListChangeListener<? super Piece>) event ->
-                displayPieces());
+        gameState.getPieces().addListener((ListChangeListener<? super Piece>) event -> Platform.runLater(this::displayPieces));
 
+        ClientData.getInstance().getLastRequest().addObserver(((o, arg) -> {
+            System.out.println("???");
+            String request = ClientData.getInstance().getLastRequest().getValue();
+
+            String[] args = request.split("_");
+
+            Vector2D start = new Vector2D(args[1], args[2]);
+            Vector2D destination = new Vector2D(args[3], args[4]);
+
+            Vector2D capture = new Vector2D(args[5], args[6]);
+
+            gameState.gameLogic.move(gameState, new Move(start, destination, capture));
+        }));
         selectedPiece.addObserver(new Observer() {
             @Override
             public void update(Observable o, Object arg) {
 
                 possibleMoves.clear();
 
-                if(selectedPiece.getValue() == null) {
+                if (selectedPiece.getValue() == null) {
 
-                    displayPieces();
+                    Platform.runLater(() -> displayPieces());
                     return;
 
                 }
                 possibleMoves.setAll(gameState.gameLogic.getPossibleMoves(gameState, selectedPiece.getValue()));
-    System.out.println("PossibleMovesCount" + possibleMoves.size());
-                displayPieces();
+                Platform.runLater(() -> displayPieces());
             }
         });
         createBoard();
@@ -88,8 +98,7 @@ public class GameSceneController {
 
             ObservableList<Node> nodes = square.getChildren();
 
-            if (square.getChildren().size() > 1)
-                square.getChildren().remove(1, nodes.size());
+            if (square.getChildren().size() > 1) square.getChildren().remove(1, nodes.size());
         }
 
     }
@@ -101,19 +110,18 @@ public class GameSceneController {
 
     private void displayPieces(boolean clear) {
 
-        if (clear)
-            clearPieces();
+        if (clear) clearPieces();
 
         for (Piece piece : gameState.getPieces()) {
 
-            if (piece == null)
-                continue;
+            if (piece == null) continue;
             int i = gameState.getIdxByPosition(piece.x, piece.y);
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(10);
             circle.setFill(Color.web(piece.getColor().toHex()));
-            circle.setOnMouseClicked(event ->
-            {
+
+            if(piece.getColor() == ClientData.getInstance().getGameState().getPlayerColor())
+            circle.setOnMouseClicked(event -> {
                 selectedPiece.setValue(piece);
             });
             stackPane.getChildren().add(1, circle);
@@ -126,10 +134,9 @@ public class GameSceneController {
             StackPane stackPane = squares.get(i);
             Circle circle = new Circle(7);
             circle.setFill(Color.web("00ff00"));
-            circle.setOnMouseClicked(event ->
-            {
-             gameState.gameLogic.Move(gameState, move);
-             selectedPiece.setValue(null);
+            circle.setOnMouseClicked(event -> {
+                Client.request("MOVE_" + move.getStart().x + "_" + move.getStart().y + "_" + move.getDestination().x + "_" + move.getDestination().y + "_" + move.getCapture().x + "_" + move.getCapture().y);
+                selectedPiece.setValue(null);
             });
             stackPane.getChildren().add(1, circle);
 

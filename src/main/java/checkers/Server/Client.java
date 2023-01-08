@@ -1,45 +1,52 @@
 package checkers.Server;
 
-import checkers.Client.Interface.Controllers.SystemController;
-import javafx.scene.control.Alert;
+import checkers.Server.RequestHandlers.RequestManager;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 
-public class Client {
-    private SystemController systemController;
-    private static BufferedReader in;
-    private static PrintWriter out;
-    public static int idCounter = 0;
-    private final int id;
-    public Client(int id) {
-        this.id = id;
+public class Client implements Runnable {
+    private  BufferedReader in;
+    private  PrintWriter out;
+
+    public PrintWriter getOut() {
+        return out;
     }
 
-    public int getId() {
-        return id;
+    OutputStream output;
+
+    private final String ID;
+
+    public String getID() {
+        return ID;
     }
 
-    public void initConnection(int port){
-        try{
-            Socket s1 = new Socket("localhost", port);
-            out = new PrintWriter(s1.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
-            out.println(systemController.getWariant());
-        }
-        catch (IOException e){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Błąd!");
-            alert.setHeaderText(null);
-            alert.setContentText("Błąd połączenia z serwerem!");
-            alert.showAndWait();
-            e.printStackTrace();
-            System.out.println("Could not connect. Check the hostname and port.");
-            System.exit(0);
+    private final Socket socket;
+    public Client(Socket socket, String ID) {
+        this.socket = socket;
+        this.ID = ID;
+    }
+
+    public void run() {
+        try {
+            InputStream input = socket.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(input));
+
+            output = socket.getOutputStream();
+            out = new PrintWriter(output, true);
+
+            String line;
+            do {
+                line = in.readLine();
+                RequestManager.processRequest(this, line);
+            } while (!line.equals("EXIT"));
+
+            socket.close();
+
+        } catch (IOException ex) {
+            System.out.println("Server exception: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

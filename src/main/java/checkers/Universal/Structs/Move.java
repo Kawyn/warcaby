@@ -6,9 +6,9 @@ public class Move {
 
     private Vector2D start;
     private Vector2D destination;
-    private Piece capture;
+    private Vector2D capture;
 
-    public Move(Vector2D start, Vector2D destination, Piece capture) {
+    public Move(Vector2D start, Vector2D destination, Vector2D capture) {
 
         this.start = start;
         this.destination = destination;
@@ -32,11 +32,11 @@ public class Move {
         this.start = start;
     }
 
-    public Piece getCapture() {
+    public Vector2D getCapture() {
         return capture;
     }
 
-    public void setCapture(Piece capture) {
+    public void setCapture(Vector2D capture) {
         this.capture = capture;
     }
 

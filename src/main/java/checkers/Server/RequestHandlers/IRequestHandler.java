@@ -1,9 +1,11 @@
 package checkers.Server.RequestHandlers;
 
+import checkers.Server.Client;
+
 public interface IRequestHandler {
 
-    public boolean canProcessRequest(String request) ;
+    boolean canProcessRequest(Client client, String request);
 
-    // Najpewniej powinno być do proces request przekazywany jakiś identyfikator klienta
-    public void processRequest(String Request);
+
+    void processRequest(Client client, String request);
 }

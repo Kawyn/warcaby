@@ -26,7 +26,7 @@ public class QueenBasic implements IMoveGenerator {
                         Piece target = gameState.getPieceByVector2D(destination);
 
                         if (target == null) {
-                            result.add(new Move(new Vector2D(piece.x, piece.y), destination, null));
+                            result.add(new Move(new Vector2D(piece.x, piece.y), destination, new Vector2D(-1, -1)));
                         } else {
 
                             if (target.getColor().equals(piece.getColor()))
@@ -37,7 +37,7 @@ public class QueenBasic implements IMoveGenerator {
                             if (gameState.isInBounds(further)) {
 
                                 if (gameState.getPieceByVector2D(further) == null) {
-                                    result.add(new Move(new Vector2D(piece.x, piece.y), further, target));
+                                    result.add(new Move(new Vector2D(piece.x, piece.y), further, destination));
                                     break;
                                 }
                             }

@@ -1,16 +1,13 @@
 package checkers.Client.Interface.Controllers;
 
 import checkers.Server.Client;
-import checkers.Server.Serwer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import checkers.Server.Server;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import java.util.function.UnaryOperator;
 
 
 public class SearchController {
-    private Serwer serwer;
+    private Server server;
     private Client client;
     @FXML
     private Button next;
@@ -23,7 +20,7 @@ public class SearchController {
 
     @FXML
     void initialize() {
-        LoadList();
+   /*     LoadList();
         checkInt();
         next.setOnAction(event -> {
             if (numeric.getText().length() < 4) {
@@ -34,8 +31,8 @@ public class SearchController {
                 alert.showAndWait();
             }
             if (getWariant()==0){
-                serwer = new Serwer(Integer.parseInt(numeric.getText()));
-                serwer.run();
+      //          server = new Server(Integer.parseInt(numeric.getText()));
+        //        server.run();
             }
             else {
                 client.initConnection(Integer.parseInt(numeric.getText()));
@@ -66,7 +63,7 @@ public class SearchController {
     }
 
     public int getWariant(){
-        return typ.getSelectionModel().getSelectedIndex();
+        return typ.getSelectionModel().getSelectedIndex();*/
     }
 
 }
