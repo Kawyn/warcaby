@@ -23,7 +23,7 @@ public class VictoryController {
             stage.close();
             root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("/resources/Search.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/resources/System.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
