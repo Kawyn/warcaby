@@ -19,30 +19,32 @@ public class PawnRussian implements IMoveGenerator {
 
         for (int xModifier = -1; xModifier <= 1; xModifier += 2) {
             for (int yModifier = -1; yModifier <= 1; yModifier += 2) {
-            int i = 1;
+                int i = 1;
 
-            Vector2D destination = new Vector2D(piece.x + i * xModifier, piece.y + i * yModifier);
+                Vector2D destination = new Vector2D(piece.x + i * xModifier, piece.y + i * inverse);
+                Vector2D destination2 = new Vector2D(piece.x + i * xModifier, piece.y + i * yModifier);
 
-            if (gameState.isInBounds(destination)) {
+                if (gameState.isInBounds(destination2)) {
 
-                Piece target = gameState.getPieceByVector2D(destination);
+                    Piece target = gameState.getPieceByVector2D(destination2);
 
-                if (target == null) {
-                    result.add(new Move(new Vector2D(piece.x, piece.y), destination, new Vector2D(-1, -1)));
-                } else {
+                    if (target == null) {
+                        result.add(new Move(new Vector2D(piece.x, piece.y), destination, new Vector2D(-1, -1)));
+                    } else {
 
-                    if (!target.getColor().equals(piece.getColor())) {
-                        Vector2D further = new Vector2D(piece.x + (i + 1) * xModifier, piece.y + (i + 1) * yModifier);
+                        if (!target.getColor().equals(piece.getColor())) {
+                            Vector2D further = new Vector2D(piece.x + (i + 1) * xModifier, piece.y + (i + 1) * yModifier );
 
-                        if (gameState.isInBounds(further)) {
+                            if (gameState.isInBounds(further)) {
 
-                            if (gameState.getPieceByVector2D(further) == null) {
-                                result.add(new Move(new Vector2D(piece.x, piece.y), further, destination));
+                                if (gameState.getPieceByVector2D(further) == null) {
+                                    result.add(new Move(new Vector2D(piece.x , piece.y ), further, destination2));
+                                }
                             }
+                            break;
                         }
                     }
                 }
-            }
             }
         }
 
