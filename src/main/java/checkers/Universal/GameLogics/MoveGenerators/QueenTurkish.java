@@ -18,7 +18,7 @@ public class QueenTurkish implements IMoveGenerator {
                 for (int i = 1; i < 8; i++) {
 
                     Vector2D destination = new Vector2D(piece.x, piece.y + i * yModifier);
-                    Vector2D destinationSide = new Vector2D(piece.x + i * xModifier, piece.y);
+
                     if (gameState.isInBounds(destination)) {
 
                         Piece target = gameState.getPieceByVector2D(destination);
@@ -42,6 +42,10 @@ public class QueenTurkish implements IMoveGenerator {
                             break;
                         }
                     }
+
+                }
+                for (int j = 1; j < 8; j++) {
+                    Vector2D destinationSide = new Vector2D(piece.x + j * xModifier, piece.y);
                     if (gameState.isInBounds(destinationSide)) {
 
                         Piece target = gameState.getPieceByVector2D(destinationSide);
@@ -53,7 +57,7 @@ public class QueenTurkish implements IMoveGenerator {
                             if (target.getColor().equals(piece.getColor()))
                                 break;
 
-                            Vector2D further = new Vector2D(piece.x + (i + 1) * xModifier, piece.y);
+                            Vector2D further = new Vector2D(piece.x + (j + 1) * xModifier, piece.y);
 
                             if (gameState.isInBounds(further)) {
 
