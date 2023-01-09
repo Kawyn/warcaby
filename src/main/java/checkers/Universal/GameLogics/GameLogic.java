@@ -96,6 +96,7 @@ public class GameLogic {
             gameState.previousMove = null;
             gameState.setWhoseTurn(PlayerColor.values()[Math.abs(gameState.getWhoseTurn().ordinal() - 1)]);
             System.out.println(gameState.getWhoseTurn());
+            promote(piece);
         }
     }
 

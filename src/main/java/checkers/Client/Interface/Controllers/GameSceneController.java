@@ -45,7 +45,7 @@ public class GameSceneController {
     private GameState gameState;
 
     public void initialize() {
-
+        result.setVisible(false);
         gameState = Data.getInstance().getGameState();
         gameState.getPieces().addListener((ListChangeListener<? super Piece>) event -> Platform.runLater(this::displayPieces));
 
@@ -68,9 +68,9 @@ public class GameSceneController {
                 }
 
                 if (request.startsWith("WON")) {
-
+                    result.setVisible(true);
                     Data.getInstance().getLastRequest().deleteObserver(this);
-                    Platform.runLater(() -> {
+                    result.setOnAction(event -> {
                         stage = (Stage) result.getScene().getWindow();
                         stage.close();
                         root = null;
@@ -85,29 +85,29 @@ public class GameSceneController {
                         stage.setScene(new Scene(root));
                         stage.setResizable(false);
                         stage.show();
-
                     });
+                    Data.getInstance().setGameState(null);
                 }
                 if (request.startsWith("LOST")) {
+                    result.setVisible(true);
                     Data.getInstance().getLastRequest().deleteObserver(this);
-                    Platform.runLater(() -> {
-                        stage = (Stage) result.getScene().getWindow();
-                        stage.close();
-                        root = null;
-                        try {
-                            root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        stage = new Stage();
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setTitle("Warcaby");
-                        stage.setScene(new Scene(root));
-                        stage.setResizable(false);
-                        stage.show();
-
-
-                    });
+                       result.setOnAction(event -> {
+                           stage = (Stage) result.getScene().getWindow();
+                           stage.close();
+                           root = null;
+                           try {
+                               root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
+                           } catch (IOException e) {
+                               e.printStackTrace();
+                           }
+                           stage = new Stage();
+                           stage.initModality(Modality.APPLICATION_MODAL);
+                           stage.setTitle("Warcaby");
+                           stage.setScene(new Scene(root));
+                           stage.setResizable(false);
+                           stage.show();
+                       });
+                       Data.getInstance().setGameState(null);
                 }
             }
         });
