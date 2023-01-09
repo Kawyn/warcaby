@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="checkers.Client.Interface.Controllers.VictoryController">
+   <children>
+      <ImageView fitHeight="426.0" fitWidth="589.0" layoutX="-75.0" layoutY="-17.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-9.0" AnchorPane.leftAnchor="-75.0" AnchorPane.rightAnchor="-96.28326416015625" AnchorPane.topAnchor="-17.0">
+         <image>
+            <Image url="@image/2.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="90.0" layoutX="155.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="245.26171875" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="28.0">
+         <image>
+            <Image url="@image/3.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="result_lable" layoutX="69.0" layoutY="166.0" text="Gratulacje, wygrałeś!" textFill="WHITE" AnchorPane.bottomAnchor="204.4" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="69.39999999999998" AnchorPane.topAnchor="166.0">
+         <font>
+            <Font name="Bookman Old Style Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="menu" layoutX="141.0" layoutY="258.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="118.0" style="-fx-background-color: white; -fx-background-radius: 5000 5000 5000 5000;" text="Menu" AnchorPane.bottomAnchor="87.60000000000002" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="140.60000000000002" AnchorPane.topAnchor="258.0">
+         <font>
+            <Font name="Bookman Old Style Bold" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
