@@ -4,6 +4,7 @@ import checkers.Client.Client;
 import checkers.Client.Data;
 import checkers.Universal.GameStates.GameState;
 import checkers.Universal.Pieces.Piece;
+import checkers.Universal.PlayerColor;
 import checkers.Universal.Structs.Move;
 import checkers.Universal.Structs.Vector2D;
 import checkers.Utils.ObservableValue;
@@ -17,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -40,6 +42,11 @@ public class GameSceneController {
     private Stage stage;
     @FXML
     private FlowPane board;
+
+    @FXML
+    private Label turnDisplay;
+    @FXML
+    private Label colorDisplay;
     @FXML
     private Button result;
     private GameState gameState;
@@ -48,7 +55,8 @@ public class GameSceneController {
         result.setVisible(false);
         gameState = Data.getInstance().getGameState();
         gameState.getPieces().addListener((ListChangeListener<? super Piece>) event -> Platform.runLater(this::displayPieces));
-
+        colorDisplay.setText(Data.getInstance().getCurrentColor() == PlayerColor.WHITE ? "Jesteś białymi" : "Jesteś czarnymi");
+        turnDisplay.setText(gameState.getWhoseTurn() == PlayerColor.WHITE ? "Tura białych" : "Tura czarnych");
         Data.getInstance().getLastRequest().addObserver(new Observer() {
             @Override
             public void update(Observable o, Object arg) {
@@ -65,6 +73,9 @@ public class GameSceneController {
                     Vector2D capture = new Vector2D(args[5], args[6]);
 
                     gameState.gameLogic.move(gameState, new Move(start, destination, capture));
+                    Platform.runLater(() -> {
+                        turnDisplay.setText(gameState.getWhoseTurn() == PlayerColor.WHITE ? "Tura białych" : "Tura czarnych");
+                    });
                 }
 
                 if (request.startsWith("WON")) {
@@ -91,23 +102,23 @@ public class GameSceneController {
                 if (request.startsWith("LOST")) {
                     result.setVisible(true);
                     Data.getInstance().getLastRequest().deleteObserver(this);
-                       result.setOnAction(event -> {
-                           stage = (Stage) result.getScene().getWindow();
-                           stage.close();
-                           root = null;
-                           try {
-                               root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
-                           } catch (IOException e) {
-                               e.printStackTrace();
-                           }
-                           stage = new Stage();
-                           stage.initModality(Modality.APPLICATION_MODAL);
-                           stage.setTitle("Warcaby");
-                           stage.setScene(new Scene(root));
-                           stage.setResizable(false);
-                           stage.show();
-                       });
-                       Data.getInstance().setGameState(null);
+                    result.setOnAction(event -> {
+                        stage = (Stage) result.getScene().getWindow();
+                        stage.close();
+                        root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/resources/Loss.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Warcaby");
+                        stage.setScene(new Scene(root));
+                        stage.setResizable(false);
+                        stage.show();
+                    });
+                    Data.getInstance().setGameState(null);
                 }
             }
         });

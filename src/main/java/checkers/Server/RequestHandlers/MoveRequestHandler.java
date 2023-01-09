@@ -44,10 +44,15 @@ public class MoveRequestHandler implements IRequestHandler {
             if (gameResult == GameResult.WHITE_WON) {
                 game.playercast(0, "WON");
                 game.playercast(1, "LOST");
+                Data.getInstance().getGames().remove(game);
+
             } else if (gameResult == GameResult.BLACK_WON) {
                 game.playercast(0, "LOST");
                 game.playercast(1, "WON");
+                Data.getInstance().getGames().remove(game);
+
             }
+
         }
     }
 }
