@@ -1,0 +1,13 @@
+checkers
+checkers.Client
+checkers.Client.Interface.Controllers
+checkers.Server
+checkers.Server.RequestHandlers
+checkers.Universal
+checkers.Universal.GameLogics
+checkers.Universal.GameLogics.MoveControllers
+checkers.Universal.GameLogics.MoveGenerators
+checkers.Universal.GameStates
+checkers.Universal.Pieces
+checkers.Universal.Structs
+checkers.Utils
